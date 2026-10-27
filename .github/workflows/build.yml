@@ -20,8 +20,6 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - uses: android-actions/setup-android@v3
-
       - name: 버전 번호 정하기
         run: |
           N=$(( ${{ github.run_number }} + 10 ))
@@ -39,6 +37,7 @@ jobs:
             echo "::error::서명 키가 아직 등록되지 않았어요. 저장소 Settings › Secrets and variables › Actions 에 KEYSTORE_BASE64, KEYSTORE_PASSWORD, KEY_ALIAS, KEY_PASSWORD 를 넣어 주세요."
             exit 1
           fi
+          echo "sdk.dir=$ANDROID_HOME" > local.properties
           chmod +x gradlew
           ./gradlew assembleRelease --no-daemon
           mkdir -p dist
